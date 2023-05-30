@@ -1,0 +1,11 @@
+1. Vad gör "ADD employees.sql /docker-entrypoint-initdb.d/employees.sql" i er Dockerfile? 
+
+Svar: Den kopierar filen employees.sql från den lokala mappen till mappen /docker-entrypoint-initdb.d i docker imagen.
+
+2: Hur löste ni delen "Skapa/läs data från databasen med mariadb.py". Skriv kortfattat nedan. 
+
+Svar: Jag mappade port 3307 på localhost till port 3306 på containern i samband med docker run (docker run -d --name employees -p 127.0.0.1:3307:3306), och la till "port=3307" i connection delen i python filen. Jag fick skriva lösenordet manuellt i python filen eftersom att den får inget lösenord från os.environ.get("password"). Och ändrade "cursor.commit()" till "connection.commit()" också i python filen
+
+3: Stötte ni på andra problem och hur löste ni dessa? Svara nedan.
+
+Svar: Jag hade problem med att mappa port 3306 på localhosten till port 3306 på containern. Problemet uppstod på grud av att port 3306 var upptagen då den används av mariadb tjänsten. Jag löste det genom att ändra till port 3307 istället.
